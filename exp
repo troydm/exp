@@ -70,6 +70,15 @@ sub parsetag {
     return ();
 }
 
+sub formatdesc {
+    my ($t,$d) = (@_);
+    if($d =~ /\n/){
+        my $offset = ' ' x (length($t)+6);
+        $d =~ s/\n\s*/\n$offset/g;
+    }
+    return $d;
+}
+
 my @helprefs = $content =~ /helpref=\"help-(\d+)\"/g;
 
 for my $i (@helprefs){
@@ -77,7 +86,7 @@ for my $i (@helprefs){
     my @d = parsetag("pre","help-$i");
     if(@t){
         my $title = decodechars(striptags $t[1]) if @t;
-        my $desc = decodechars(striptags $d[1]) if @d;
+        my $desc = formatdesc($title, decodechars(striptags $d[1])) if @d;
         if($color){
             print "\n", $title, color($color), " ---[", color("reset")
                     , " $desc ", color($color), "]", color("reset"), "\n\n";
