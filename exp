@@ -70,13 +70,11 @@ sub parsetag {
     return ();
 }
 
-my $i = -1;
-my @t;
-my @d;
-do {
-    $i++;
-    @t = parsetag("span","help-$i");
-    @d = parsetag("pre","help-$i");
+my @helprefs = $content =~ /helpref=\"help-(\d+)\"/g;
+
+for my $i (@helprefs){
+    my @t = parsetag("span","help-$i");
+    my @d = parsetag("pre","help-$i");
     if(@t){
         my $title = decodechars(striptags $t[1]) if @t;
         my $desc = decodechars(striptags $d[1]) if @d;
@@ -87,4 +85,4 @@ do {
             print "\n$title ---[ $desc ]\n\n";
         }
     }
-} while(@t);
+}
