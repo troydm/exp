@@ -88,10 +88,10 @@ for my $i (@helprefs){
         my $title = decodechars(striptags $t[1]) if @t;
         my $desc = formatdesc($title, decodechars(striptags $d[1])) if @d;
         if($color){
-            print "\n", $title, color($color), " ---[", color("reset")
+            print $title, color($color), " ---[", color("reset")
                     , " $desc ", color($color), "]", color("reset"), "\n\n";
         }else{
-            print "\n$title ---[ $desc ]\n\n";
+            print "$title ---[ $desc ]\n\n";
         }
     }
 }
