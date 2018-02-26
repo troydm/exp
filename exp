@@ -39,8 +39,8 @@ $cmd = decode("UTF-8", $cmd);
 
 my $content;
 
-open(my $output, "-|:encoding(UTF-8)", "curl -s http://explainshell.com/explain?cmd=".$cmd)
-    or die "can't get data from http://explainshell.com $!";
+open(my $output, "-|:encoding(UTF-8)", "curl -s https://explainshell.com/explain?cmd=".$cmd)
+    or die "can't get data from https://explainshell.com $!";
 {
     local $/;
     $content = <$output>;
