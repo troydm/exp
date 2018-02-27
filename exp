@@ -11,11 +11,14 @@ use Encode;
 use Term::ANSIColor;
 
 # color used for brackets
+my @colors = qw/blue red green yellow magenta cyan/;
+my $color_prefix = "bright_";
 my $color = "bright_blue";
 # since bright_blue support was added in Perl v5.13.3
 # we need to use blue if we are running on an older version
 if ($] < 5.013003) { 
     $color = "blue";
+    $color_prefix = "";
 }
 
 binmode STDOUT, ":utf8";
@@ -71,24 +74,31 @@ sub parsetag {
 }
 
 sub formatdesc {
-    my ($t,$d) = (@_);
+    my ($t,$d,$pc) = (@_);
     if($d =~ /\n/){
-        my $offset = ' ' x (length($t)+6);
+        my $offset = ' ' x (length($t)+6+$pc);
         $d =~ s/\n\s*/\n$offset/g;
     }
     return $d;
 }
 
 my @helprefs = $content =~ /helpref=\"help-(\d+)\"/g;
+my $maxlen = 6;
 
 for my $i (@helprefs){
     my @t = parsetag("span","help-$i");
     my @d = parsetag("pre","help-$i");
     if(@t){
         my $title = decodechars(striptags $t[1]) if @t;
-        my $desc = formatdesc($title, decodechars(striptags $d[1])) if @d;
+        if(length($title)+6 > $maxlen){
+            $maxlen = length($title)+6;
+        }
+        my $prefix_count = $maxlen-(length($title)+6);
+        my $prefix = '-' x $prefix_count;
+        my $desc = formatdesc($title, decodechars(striptags $d[1]),$prefix_count) if @d;
         if($color){
-            print $title, color($color), " ---[", color("reset")
+            $color = $color_prefix.$colors[$i % @colors];
+            print color("bold"), $title, color("reset"), color($color), " $prefix---[", color("reset")
                     , " $desc ", color($color), "]", color("reset"), "\n\n";
         }else{
             print "$title ---[ $desc ]\n\n";
