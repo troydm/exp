@@ -101,7 +101,7 @@ for my $i (@helprefs){
             print color("bold"), $title, color("reset"), color($color), " $prefix---[", color("reset")
                     , " $desc ", color($color), "]", color("reset"), "\n\n";
         }else{
-            print "$title ---[ $desc ]\n\n";
+            print "$title $prefix---[ $desc ]\n\n";
         }
     }
 }
