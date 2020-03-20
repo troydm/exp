@@ -5,7 +5,7 @@ it's written in [perl](http://www.perl.org/) and needs only [curl](http://curl.h
 
 ## install
 
-    sudo curl https://raw2.github.com/troydm/exp/master/exp -o /usr/local/bin/exp
+    sudo curl https://raw.githubusercontent.com/troydm/exp/master/exp -o /usr/local/bin/exp
     sudo chmod +x /usr/local/bin/exp
 
 ## usage
